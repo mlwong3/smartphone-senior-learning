@@ -28,6 +28,7 @@ interface RegistrationLessonProps {
   onBack: () => void
   onComplete: (metrics: LessonMetrics) => void
   onAbandon?: (metrics: LessonMetrics) => void
+  onFinish?: () => void
 }
 
 function PracticeDataCard({
@@ -132,6 +133,7 @@ export function RegistrationLesson({
   onBack,
   onComplete,
   onAbandon,
+  onFinish,
 }: RegistrationLessonProps) {
   return (
     <LessonEngine onComplete={onComplete}>
@@ -147,6 +149,7 @@ export function RegistrationLesson({
           <RegistrationContent
             lesson={lesson}
             onBack={leaveLesson}
+            onFinish={onFinish ?? onBack}
           />
         )
       }}
@@ -157,9 +160,11 @@ export function RegistrationLesson({
 function RegistrationContent({
   lesson,
   onBack,
+  onFinish,
 }: {
   lesson: LessonController
   onBack: () => void
+  onFinish: () => void
 }) {
   const [guidedStep, setGuidedStep] = useState(0)
   const [guidedComplete, setGuidedComplete] = useState(false)
@@ -367,7 +372,12 @@ function RegistrationContent({
           <li>只在可信任的網站輸入真實資料。</li>
         </ul>
       </section>
-      <button type="button" className="primary-button" onClick={onBack}>
+      <button
+        type="button"
+        className="primary-button"
+        aria-label="完成回顧並返回首頁"
+        onClick={onFinish}
+      >
         返回首頁
       </button>
     </LessonLayout>

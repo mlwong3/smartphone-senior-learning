@@ -41,3 +41,10 @@ export interface UserSettings {
   fontScale: FontScale
   speechEnabled: boolean
 }
+
+export interface ActiveStudyContext {
+  participantCode: string
+  levelId: LevelId
+  confidenceBefore: number
+  attemptNo: number
+}
