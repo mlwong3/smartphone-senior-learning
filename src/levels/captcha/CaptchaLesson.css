@@ -1,16 +1,128 @@
-.captcha-card { display: grid; gap: 10px; }
-.captcha-card h2 { font-size: 1.05rem; }
-.captcha-card > p { color: var(--color-text-soft); font-size: 0.9rem; }
-.captcha-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
-.captcha-tile { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; min-height: 100px; padding: 5px; border: 3px solid #7b8792; border-radius: 10px; background: #fff; color: #26333d; }
-.captcha-tile svg { width: 100%; max-width: 65px; height: 50px; fill: #e1ebf5; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-.captcha-tile > span { font-size: 0.85rem; font-weight: 800; }
-.captcha-tile.is-selected { border-color: #0d58aa; background: #e4f0ff; box-shadow: inset 0 0 0 2px #0d58aa; }
-.captcha-tile b { position: absolute; top: 4px; right: 4px; display: grid; place-items: center; width: 25px; height: 25px; border-radius: 50%; background: #0d58aa; color: #fff; }
-.captcha-demo { display: grid; grid-template-columns: 100px 45px 1fr; align-items: center; gap: 8px; padding: 16px; border-radius: 16px; background: #edf5ff; }
-.captcha-demo > svg:first-child { width: 100px; fill: #d5e6f8; stroke: #163e68; stroke-width: 3; }
-.captcha-demo strong { font-size: 1rem; }
+.verification-progress {
+  margin: 0;
+  color: var(--color-primary-dark);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.verification-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 2px solid #cad8e5;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.verification-card h2 { font-size: 1.18rem; }
+.verification-card > p { margin: 0; color: var(--color-text-soft); font-size: 0.94rem; line-height: 1.5; }
+.verification-card__eyebrow { color: #1d5c94; font-size: 0.86rem; font-weight: 900; }
 .a11y-note { padding: 12px; border-left: 5px solid #654da0; background: #f4efff; color: #4e3788; font-size: 0.9rem; font-weight: 700; }
-.text-challenge { display: flex; justify-content: center; gap: 5px; padding: 22px 10px; border: 3px solid #4f5d68; border-radius: 14px; background: repeating-linear-gradient(-12deg,#f1f4f6,#f1f4f6 8px,#dce2e7 9px,#dce2e7 10px); color: #122f47; font-family: ui-monospace, monospace; font-size: 2rem; font-weight: 900; letter-spacing: 2px; }
+
+.sms-message {
+  display: grid;
+  gap: 5px;
+  padding: 15px;
+  border-radius: 14px;
+  background: #eaf5ed;
+  color: #174d2a;
+}
+
+.sms-message small { color: #356544; font-size: 0.82rem; }
+
+.inbox-list { display: grid; gap: 9px; }
+
+.email-row {
+  display: grid;
+  min-height: 84px;
+  gap: 3px;
+  padding: 13px 14px;
+  border: 2px solid #b8c8d7;
+  border-radius: 12px;
+  background: #fff;
+  color: #1a3247;
+  text-align: left;
+}
+
+.email-row:hover,
+.email-row:focus-visible { border-color: var(--color-primary); background: #edf6ff; }
+.email-row strong { font-size: 0.92rem; }
+.email-row span { font-weight: 900; }
+.email-row small { color: var(--color-text-soft); font-size: 0.8rem; }
+
+.email-message dl { display: grid; gap: 8px; margin: 0; }
+.email-message dl > div { display: grid; gap: 3px; padding: 10px; border-radius: 10px; background: #f4f7fa; }
+.email-message dt { color: var(--color-text-soft); font-size: 0.8rem; font-weight: 800; }
+.email-message dd { margin: 0; font-size: 0.92rem; font-weight: 700; overflow-wrap: anywhere; }
+
+.captcha-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+
+.captcha-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 96px;
+  padding: 7px;
+  border: 3px solid #7b8792;
+  border-radius: 12px;
+  background: #fff;
+  color: #26333d;
+}
+
+.captcha-tile svg { width: 100%; max-width: 84px; height: 62px; fill: #e1ebf5; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.captcha-tile > span { font-size: 0.88rem; font-weight: 800; }
+.captcha-tile.is-selected { border-color: #0d58aa; background: #e4f0ff; box-shadow: inset 0 0 0 2px #0d58aa; }
+.captcha-tile b { position: absolute; top: 5px; right: 5px; display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; background: #0d58aa; color: #fff; }
+
+.captcha-text-options { display: grid; gap: 8px; }
+
+.captcha-text-option {
+  position: relative;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  min-height: 58px;
+  padding: 8px 48px 8px 10px;
+  border: 3px solid #7b8792;
+  border-radius: 12px;
+  background: #fff;
+  color: #26333d;
+  text-align: left;
+}
+
+.captcha-text-option > span { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #edf1f5; font-weight: 900; }
+.captcha-text-option > strong { font-size: 1rem; }
+.captcha-text-option.is-selected { border-color: #0d58aa; background: #e4f0ff; box-shadow: inset 0 0 0 2px #0d58aa; }
+.captcha-text-option b { position: absolute; top: 50%; right: 12px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #0d58aa; color: #fff; transform: translateY(-50%); }
+
+@media (max-width: 330px) {
+  .captcha-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.text-challenge {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 20px 10px;
+  border: 3px solid #4f5d68;
+  border-radius: 14px;
+  background: repeating-linear-gradient(-12deg, #f1f4f6, #f1f4f6 8px, #dce2e7 9px, #dce2e7 10px);
+  color: #122f47;
+  font-family: ui-monospace, monospace;
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
 .text-challenge span:nth-child(odd) { transform: rotate(-5deg); }
 .text-challenge span:nth-child(even) { transform: rotate(5deg); }
+.text-challenge--clear { background: #edf7ff; letter-spacing: 5px; }
+.text-challenge--clear span { transform: none !important; }
+
+.verification-overview { display: grid; gap: 10px; }
+.verification-overview div { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; background: #edf5ff; color: #163e68; font-weight: 800; }
+.verification-overview strong { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #1d5c94; color: #fff; }
+.verification-replay { margin-top: 2px; }

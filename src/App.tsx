@@ -39,7 +39,7 @@ import type {
 const PAGE_TEXT: Record<ScreenId, string> = {
   home: '歡迎使用智學手機。請選擇一個已開放的關卡開始練習。',
   registration: '註冊帳號練習。請使用畫面提供的虛構資料，不要輸入真實個人資料。',
-  captcha: '安全驗證練習。請按題目選出指定圖片。',
+  captcha: '安全驗證練習。學習短訊驗證碼、確認電郵及文字和圖片 CAPTCHA。',
   ordering: '外賣點餐練習。這是練習模式，不會付款。',
   study: '導師測試工具。只使用匿名參加者代碼。',
 }
