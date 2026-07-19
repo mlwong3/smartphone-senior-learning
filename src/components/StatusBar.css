@@ -1,0 +1,17 @@
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-lg);
+  padding-top: var(--space-md);
+  font-size: var(--font-hint);
+  font-weight: 600;
+  color: var(--color-text);
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.status-bar__icons {
+  display: flex;
+  gap: var(--space-sm);
+}

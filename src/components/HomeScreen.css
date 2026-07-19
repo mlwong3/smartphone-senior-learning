@@ -1,0 +1,39 @@
+.home-screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: var(--space-lg);
+  gap: var(--space-lg);
+}
+
+.home-screen__header {
+  text-align: center;
+}
+
+.home-screen__title {
+  font-size: var(--font-title);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.home-screen__subtitle {
+  margin-top: var(--space-sm);
+  font-size: var(--font-body);
+  color: var(--color-text-soft);
+}
+
+.home-screen__progress {
+  margin-top: var(--space-sm);
+  font-size: var(--font-hint);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* 三個圖示：單欄垂直排列，間距大、易點選 */
+.home-screen__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  justify-items: center;
+  padding-bottom: var(--space-md);
+}

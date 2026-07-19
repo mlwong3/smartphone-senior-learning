@@ -1,0 +1,62 @@
+.app-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  background: transparent;
+  padding: var(--space-sm);
+  min-height: auto;
+}
+
+.app-icon:disabled {
+  opacity: 0.7;
+}
+
+.app-icon__tile {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+}
+
+.app-icon__emoji {
+  font-size: 46px;
+  line-height: 1;
+}
+
+.app-icon__lock {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  font-size: 28px;
+  background: var(--color-bg);
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.app-icon__name {
+  font-size: var(--font-body);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.app-icon__status {
+  font-size: var(--font-hint);
+  font-weight: 600;
+}
+
+.app-icon__status--done {
+  color: var(--color-success);
+}
+
+.app-icon__status--ready {
+  color: var(--color-primary);
+}
+
+.app-icon__status--locked {
+  color: var(--color-locked);
+}

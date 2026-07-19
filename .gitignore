@@ -1,0 +1,19 @@
+# 依賴
+node_modules
+dist
+dist-ssr
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+
+# 紀錄
+*.log
+npm-debug.log*
+
+# 編輯器 / 系統
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.local
+.worktrees/
