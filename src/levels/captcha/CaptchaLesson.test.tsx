@@ -14,7 +14,8 @@ async function completeCaptcha(user: ReturnType<typeof userEvent.setup>) {
   await user.type(screen.getByLabelText('輸入看到的五位英數碼'), 'h7k3m')
   await user.click(screen.getByRole('button', { name: '確認文字驗證' }))
   await user.click(screen.getByRole('button', { name: '圖片 1：巴士，未選取' }))
-  await user.click(screen.getByRole('button', { name: '圖片 2：巴士，未選取' }))
+  await user.click(screen.getByRole('button', { name: '圖片 5：巴士，未選取' }))
+  await user.click(screen.getByRole('button', { name: '圖片 9：巴士，未選取' }))
   await user.click(screen.getByRole('button', { name: '確認圖片驗證' }))
 }
 
@@ -98,9 +99,26 @@ describe('CaptchaLesson', () => {
     await user.click(screen.getByRole('button', { name: '確認圖片驗證' }))
     expect(screen.getByRole('alert')).toHaveTextContent('還有指定圖片未選取')
 
-    await user.click(screen.getByRole('button', { name: '圖片 2：巴士，未選取' }))
-    await user.click(screen.getByRole('button', { name: '圖片 3：樹木，未選取' }))
+    await user.click(screen.getByRole('button', { name: '圖片 5：巴士，未選取' }))
+    await user.click(screen.getByRole('button', { name: '圖片 9：巴士，未選取' }))
+    await user.click(screen.getByRole('button', { name: '圖片 2：樹木，未選取' }))
     await user.click(screen.getByRole('button', { name: '確認圖片驗證' }))
     expect(screen.getByRole('alert')).toHaveTextContent('有一張不是指定物件')
+  })
+
+  it('offers nine non-image text options for the image challenge', async () => {
+    const user = userEvent.setup()
+    render(<CaptchaLesson onBack={vi.fn()} onComplete={vi.fn()} />)
+
+    await user.click(screen.getByRole('button', { name: '開始跟着做' }))
+    await completeSmsAndEmail(user)
+    await user.type(screen.getByLabelText('輸入看到的五位英數碼'), 'h7k3m')
+    await user.click(screen.getByRole('button', { name: '確認文字驗證' }))
+
+    expect(screen.getAllByRole('button', { name: /圖片 \d：/ })).toHaveLength(9)
+    await user.click(screen.getByRole('button', { name: '改用文字選項' }))
+
+    expect(screen.getAllByRole('button', { name: /文字選項 \d：/ })).toHaveLength(9)
+    expect(screen.getByText('已改用非圖像文字選項。')).toBeInTheDocument()
   })
 })

@@ -26,7 +26,7 @@ export interface ImageCaptchaTile {
 export interface ImageCaptchaChallenge {
   id: string
   targetLabel: string
-  tiles: ImageCaptchaTile[]
+  tiles: readonly ImageCaptchaTile[]
 }
 
 export type ImageSelectionFeedback = 'correct' | 'missing' | 'extra'
@@ -37,7 +37,7 @@ export const SMS_CHALLENGE: SmsChallenge = {
   expiresInSeconds: 120,
 }
 
-export const EMAIL_MESSAGES: EmailMessage[] = [
+export const EMAIL_MESSAGES: readonly EmailMessage[] = [
   {
     id: 'account-confirmation',
     sender: '智學手機 <no-reply@smartphone-learning.local>',
@@ -61,20 +61,25 @@ export const EMAIL_MESSAGES: EmailMessage[] = [
   },
 ]
 
-export const TEXT_CAPTCHA_CHALLENGES: TextCaptchaChallenge[] = [
+export const TEXT_CAPTCHA_CHALLENGES: readonly TextCaptchaChallenge[] = [
   { id: 'text-1', code: 'H7K3M' },
   { id: 'text-2', code: 'R4N8P' },
 ]
 
-export const IMAGE_CAPTCHA_CHALLENGES: ImageCaptchaChallenge[] = [
+export const IMAGE_CAPTCHA_CHALLENGES: readonly ImageCaptchaChallenge[] = [
   {
     id: 'bus-1',
     targetLabel: '巴士',
     tiles: [
       { id: 'bus-1', label: '巴士', target: true },
-      { id: 'bus-2', label: '巴士', target: true },
       { id: 'tree-1', label: '樹木', target: false },
       { id: 'car-1', label: '私家車', target: false },
+      { id: 'traffic-light-bus-1', label: '交通燈', target: false },
+      { id: 'bus-2', label: '巴士', target: true },
+      { id: 'building-1', label: '大廈', target: false },
+      { id: 'bike-1', label: '單車', target: false },
+      { id: 'tree-2', label: '樹木', target: false },
+      { id: 'bus-3', label: '巴士', target: true },
     ],
   },
   {
@@ -82,9 +87,14 @@ export const IMAGE_CAPTCHA_CHALLENGES: ImageCaptchaChallenge[] = [
     targetLabel: '交通燈',
     tiles: [
       { id: 'traffic-light-1', label: '交通燈', target: true },
+      { id: 'car-2', label: '私家車', target: false },
+      { id: 'tree-3', label: '樹木', target: false },
+      { id: 'bus-4', label: '巴士', target: false },
       { id: 'traffic-light-2', label: '交通燈', target: true },
-      { id: 'bike-1', label: '單車', target: false },
-      { id: 'building-1', label: '大廈', target: false },
+      { id: 'building-2', label: '大廈', target: false },
+      { id: 'bike-2', label: '單車', target: false },
+      { id: 'bus-5', label: '巴士', target: false },
+      { id: 'traffic-light-3', label: '交通燈', target: true },
     ],
   },
 ]

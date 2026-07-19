@@ -3,12 +3,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  min-width: 0;
   padding: var(--space-lg);
 }
 
 .phone-frame__screen {
   position: relative;
   width: var(--phone-width);
+  min-width: 0;
   height: var(--phone-height);
   max-height: calc(100dvh - 2 * var(--space-lg));
   background: var(--color-bg);

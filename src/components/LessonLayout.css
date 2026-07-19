@@ -103,3 +103,19 @@
   font-size: 0.9rem;
   font-weight: 700;
 }
+
+@media (max-width: 330px) {
+  .lesson-layout__topline {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .back-button {
+    justify-content: center;
+    white-space: nowrap;
+  }
+
+  .step-pill {
+    text-align: center;
+  }
+}

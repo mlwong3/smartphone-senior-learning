@@ -14,15 +14,16 @@ interface LessonLayoutProps {
   title: string
   phase: LessonPhase
   heading: string
+  contentKey?: string
   onBack: () => void
   children: ReactNode
 }
 
-export function LessonLayout({ title, phase, heading, onBack, children }: LessonLayoutProps) {
+export function LessonLayout({ title, phase, heading, contentKey, onBack, children }: LessonLayoutProps) {
   useEffect(() => {
     const phoneContent = document.querySelector<HTMLElement>('.phone-frame__content')
     if (phoneContent) phoneContent.scrollTop = 0
-  }, [phase, heading])
+  }, [phase, heading, contentKey])
 
   return (
     <main className="lesson-layout">

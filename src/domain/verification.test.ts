@@ -25,10 +25,15 @@ describe('verification domain model', () => {
     expect(EMAIL_MESSAGES.some((message) => !message.correct)).toBe(true)
   })
 
+  it('uses a complete 3 by 3 image grid for every image challenge', () => {
+    expect(IMAGE_CAPTCHA_CHALLENGES).not.toHaveLength(0)
+    expect(IMAGE_CAPTCHA_CHALLENGES.every((challenge) => challenge.tiles.length === 9)).toBe(true)
+  })
+
   it('reports missing and extra image selections', () => {
     const challenge = IMAGE_CAPTCHA_CHALLENGES[0]
     expect(getImageSelectionFeedback(challenge, new Set(['bus-1']))).toBe('missing')
-    expect(getImageSelectionFeedback(challenge, new Set(['bus-1', 'bus-2', 'tree-1']))).toBe('extra')
-    expect(getImageSelectionFeedback(challenge, new Set(['bus-1', 'bus-2']))).toBe('correct')
+    expect(getImageSelectionFeedback(challenge, new Set(['bus-1', 'bus-2', 'bus-3', 'tree-1']))).toBe('extra')
+    expect(getImageSelectionFeedback(challenge, new Set(['bus-1', 'bus-2', 'bus-3']))).toBe('correct')
   })
 })

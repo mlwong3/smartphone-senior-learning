@@ -65,7 +65,7 @@ function SmsVerification({
     <section className="verification-card" aria-labelledby="sms-title">
       <div className="verification-card__eyebrow">方法一：短訊驗證</div>
       <h2 id="sms-title">查看練習短訊</h2>
-      <p>已向練習電話 <strong>{SMS_CHALLENGE.phone}</strong> 發出一個六位數驗證碼。</p>
+      <p>畫面已模擬向練習電話 <strong>{SMS_CHALLENGE.phone}</strong> 發出一個六位數驗證碼，實際不會發送短訊。</p>
       <div className="sms-message" role="note">
         <strong>智學手機</strong>
         <span>練習驗證碼：{SMS_CHALLENGE.code}</span>
@@ -194,52 +194,67 @@ function ImageCaptcha({
   challenge,
   selected,
   feedback,
+  alternativeMode,
   onToggle,
   onConfirm,
+  onAlternativeMode,
 }: {
   challenge: ImageCaptchaChallenge
   selected: Set<string>
   feedback: string
+  alternativeMode: boolean
   onToggle: (id: string) => void
   onConfirm: () => void
+  onAlternativeMode: () => void
 }) {
   return (
     <section className="verification-card" aria-labelledby="image-captcha-title">
       <div className="verification-card__eyebrow">方法三：CAPTCHA</div>
       <h2 id="image-captcha-title">請選出所有「{challenge.targetLabel}」</h2>
-      <p>點一下圖片選取，再點一次可以取消。</p>
-      <div className="captcha-grid">
+      <p>{alternativeMode ? '閱讀每個文字選項，選出所有指定物件；再點一次可以取消。' : '點一下圖片選取，再點一次可以取消。'}</p>
+      <div className={alternativeMode ? 'captcha-text-options' : 'captcha-grid'}>
         {challenge.tiles.map((tile, index) => {
           const isSelected = selected.has(tile.id)
+          const optionType = alternativeMode ? '文字選項' : '圖片'
           return (
             <button
               key={tile.id}
               type="button"
-              className={isSelected ? 'captcha-tile is-selected' : 'captcha-tile'}
+              className={alternativeMode
+                ? `captcha-text-option${isSelected ? ' is-selected' : ''}`
+                : `captcha-tile${isSelected ? ' is-selected' : ''}`}
               aria-pressed={isSelected}
-              aria-label={`圖片 ${index + 1}：${tile.label}，${isSelected ? '已選取' : '未選取'}`}
+              aria-label={`${optionType} ${index + 1}：${tile.label}，${isSelected ? '已選取' : '未選取'}`}
               onClick={() => onToggle(tile.id)}
             >
-              <SceneIllustration scene={SCENE_BY_LABEL[tile.label]} />
-              <span>{tile.label}</span>
+              {alternativeMode ? (
+                <><span>{index + 1}</span><strong>{tile.label}</strong></>
+              ) : (
+                <><SceneIllustration scene={SCENE_BY_LABEL[tile.label]} /><span>{tile.label}</span></>
+              )}
               {isSelected && <b aria-hidden="true">✓</b>}
             </button>
           )
         })}
       </div>
+      {alternativeMode && <p className="a11y-note">已改用非圖像文字選項。</p>}
       <Feedback message={feedback} />
-      <button type="button" className="primary-button" onClick={onConfirm}>確認圖片驗證</button>
+      <div className="button-stack">
+        <button type="button" className="primary-button" onClick={onConfirm}>確認圖片驗證</button>
+        {!alternativeMode && <button type="button" className="hint-button" onClick={onAlternativeMode}>改用文字選項</button>}
+      </div>
     </section>
   )
 }
 
-function CaptchaJourney({ lesson, onFinished }: { lesson: LessonController; onFinished: () => void }) {
+function CaptchaJourney({ lesson, onFinished, onStageChange }: { lesson: LessonController; onFinished: () => void; onStageChange: (stage: VerificationStage) => void }) {
   const [stage, setStage] = useState<VerificationStage>('sms')
   const [smsCode, setSmsCode] = useState('')
   const [selectedEmail, setSelectedEmail] = useState<EmailMessage | null>(null)
   const [textChallengeIndex, setTextChallengeIndex] = useState(0)
   const [textCode, setTextCode] = useState('')
-  const [alternativeMode, setAlternativeMode] = useState(false)
+  const [textAlternativeMode, setTextAlternativeMode] = useState(false)
+  const [imageAlternativeMode, setImageAlternativeMode] = useState(false)
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set())
   const [feedback, setFeedback] = useState('')
   const textChallenge = TEXT_CAPTCHA_CHALLENGES[textChallengeIndex]
@@ -248,6 +263,7 @@ function CaptchaJourney({ lesson, onFinished }: { lesson: LessonController; onFi
   function advanceStage(next: VerificationStage) {
     setFeedback('')
     setStage(next)
+    onStageChange(next)
   }
 
   function checkSms() {
@@ -282,14 +298,20 @@ function CaptchaJourney({ lesson, onFinished }: { lesson: LessonController; onFi
     lesson.recordHint()
     setTextChallengeIndex((current) => (current + 1) % TEXT_CAPTCHA_CHALLENGES.length)
     setTextCode('')
-    setAlternativeMode(false)
+    setTextAlternativeMode(false)
     setFeedback('已提供另一組練習驗證碼。')
   }
 
   function showAlternativeMode() {
     lesson.recordHint()
-    setAlternativeMode(true)
+    setTextAlternativeMode(true)
     setFeedback('已切換清晰文字模式。')
+  }
+
+  function showImageAlternativeMode() {
+    lesson.recordHint()
+    setImageAlternativeMode(true)
+    setFeedback('')
   }
 
   function toggleImage(id: string) {
@@ -309,15 +331,15 @@ function CaptchaJourney({ lesson, onFinished }: { lesson: LessonController; onFi
       return
     }
     lesson.recordError()
-    setFeedback(result === 'missing' ? '還有指定圖片未選取，請找出所有「巴士」。' : '有一張不是指定物件，請取消選取。')
+    setFeedback(result === 'missing' ? `還有指定圖片未選取，請找出所有「${imageChallenge.targetLabel}」。` : '有一張不是指定物件，請取消選取。')
   }
 
   let content
   if (stage === 'sms') content = <SmsVerification code={smsCode} feedback={feedback} onChange={(value) => { setSmsCode(value); setFeedback('') }} onConfirm={checkSms} />
   else if (stage === 'email-inbox') content = <EmailInbox feedback={feedback} onOpen={openEmail} />
   else if (stage === 'email-message' && selectedEmail) content = <EmailMessageView message={selectedEmail} onConfirm={() => advanceStage('text-captcha')} />
-  else if (stage === 'text-captcha') content = <TextCaptcha challenge={textChallenge} value={textCode} feedback={feedback} alternativeMode={alternativeMode} onChange={(value) => { setTextCode(value); setFeedback('') }} onConfirm={checkTextCaptcha} onRefresh={refreshTextCaptcha} onAlternativeMode={showAlternativeMode} />
-  else content = <ImageCaptcha challenge={imageChallenge} selected={selectedImages} feedback={feedback} onToggle={toggleImage} onConfirm={checkImages} />
+  else if (stage === 'text-captcha') content = <TextCaptcha challenge={textChallenge} value={textCode} feedback={feedback} alternativeMode={textAlternativeMode} onChange={(value) => { setTextCode(value); setFeedback('') }} onConfirm={checkTextCaptcha} onRefresh={refreshTextCaptcha} onAlternativeMode={showAlternativeMode} />
+  else content = <ImageCaptcha challenge={imageChallenge} selected={selectedImages} feedback={feedback} alternativeMode={imageAlternativeMode} onToggle={toggleImage} onConfirm={checkImages} onAlternativeMode={showImageAlternativeMode} />
 
   return (
     <>
@@ -352,6 +374,7 @@ export function CaptchaLesson({ onBack, onComplete, onAbandon, onFinish }: Captc
 
 function CaptchaContent({ lesson, onBack, onFinish }: { lesson: LessonController; onBack: () => void; onFinish: () => void }) {
   const [guidedComplete, setGuidedComplete] = useState(false)
+  const [activeStage, setActiveStage] = useState<VerificationStage>('sms')
 
   if (lesson.phase === 'demo') return (
     <LessonLayout title="關卡二：安全驗證" phase="demo" heading="示範一次" onBack={onBack}>
@@ -374,13 +397,13 @@ function CaptchaContent({ lesson, onBack, onFinish }: { lesson: LessonController
         <button type="button" className="secondary-button" onClick={lesson.replayDemo}>再示範一次</button>
       </LessonLayout>
     )
-    return <LessonLayout title="關卡二：安全驗證" phase="guided" heading="跟着做" onBack={onBack}><CaptchaJourney key="guided" lesson={lesson} onFinished={() => setGuidedComplete(true)} /></LessonLayout>
+    return <LessonLayout title="關卡二：安全驗證" phase="guided" heading="跟着做" contentKey={activeStage} onBack={onBack}><CaptchaJourney key="guided" lesson={lesson} onFinished={() => setGuidedComplete(true)} onStageChange={setActiveStage} /></LessonLayout>
   }
 
   if (lesson.phase === 'independent') return (
-    <LessonLayout title="關卡二：安全驗證" phase="independent" heading="自己完成" onBack={onBack}>
+    <LessonLayout title="關卡二：安全驗證" phase="independent" heading="自己完成" contentKey={activeStage} onBack={onBack}>
       <p className="lesson-intro">請自行完成三種安全驗證。需要時可重新整理或使用清晰文字模式。</p>
-      <CaptchaJourney key="independent" lesson={lesson} onFinished={lesson.complete} />
+      <CaptchaJourney key="independent" lesson={lesson} onFinished={lesson.complete} onStageChange={setActiveStage} />
     </LessonLayout>
   )
 

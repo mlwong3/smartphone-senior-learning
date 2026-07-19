@@ -321,7 +321,7 @@ function OrderingContent({ lesson, onBack, onFinish }: { lesson: LessonControlle
 
     const guidedCategory = MENU_CATEGORIES.find((category) => category.id === guidedCategoryId)
     return (
-      <LessonLayout title="關卡三：外賣點餐" phase="guided" heading="跟着做" onBack={onBack}>
+      <LessonLayout title="關卡三：外賣點餐" phase="guided" heading="跟着做" contentKey={guidedView} onBack={onBack}>
         <p className="order-instruction"><strong>任務：</strong>選購1份叉燒滑蛋飯</p>
         <RestaurantHero />
         {guidedView === 'categories' && <CategoryGrid onSelect={selectGuidedCategory} />}
@@ -336,7 +336,7 @@ function OrderingContent({ lesson, onBack, onFinish }: { lesson: LessonControlle
   if (lesson.phase === 'independent') {
     const category = MENU_CATEGORIES.find((item) => item.id === categoryId)
     return (
-      <LessonLayout title="關卡三：安心茶餐廳" phase="independent" heading="自己完成" onBack={onBack}>
+      <LessonLayout title="關卡三：安心茶餐廳" phase="independent" heading="自己完成" contentKey={view} onBack={onBack}>
         <RestaurantHero />
         {view === 'categories' && <CategoryGrid onSelect={selectCategory} />}
         {view === 'menu' && category && <MenuList category={category} onBack={() => setView('categories')} onSelect={selectItem} onSwitchCategory={selectCategory} />}
