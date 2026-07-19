@@ -1,9 +1,9 @@
 {
-  "name": "elderly-account-practice",
+  "name": "smartphone-senior-learning",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
-  "description": "長者帳號註冊練習網站（手機版互動教學）",
+  "description": "智學手機：長者數碼生活安全練習平台",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -21,10 +21,10 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "^6.0.3",
     "jsdom": "^29.1.1",
     "typescript": "^5.6.3",
-    "vite": "^5.4.11",
+    "vite": "^8.1.5",
     "vitest": "^4.1.10"
   }
 }

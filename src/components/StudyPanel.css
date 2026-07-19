@@ -17,7 +17,7 @@
   border-radius: 999px;
   background: #5e468d;
   color: #fff;
-  font-size: 0.76rem;
+  font-size: 0.9rem;
   font-weight: 800;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .study-panel h1 { font-size: 1.45rem; }
-.study-panel header p { color: var(--color-text-soft); font-size: 0.82rem; }
+.study-panel header p { color: var(--color-text-soft); font-size: 0.9rem; }
 
 .study-form {
   display: grid;
@@ -55,7 +55,7 @@
 
 .confidence-scale legend {
   margin-bottom: 10px;
-  font-size: 0.86rem;
+  font-size: 0.9rem;
   font-weight: 800;
 }
 
@@ -69,11 +69,11 @@
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 54px;
+  min-height: var(--touch-min);
   border: 2px solid #7c8792;
   border-radius: 10px;
   background: #fff;
-  font-size: 0.72rem;
+  font-size: 0.9rem;
   font-weight: 800;
   cursor: pointer;
 }
@@ -89,6 +89,11 @@
   opacity: 0;
 }
 
+.confidence-scale label:focus-within {
+  outline: 4px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
 .study-results { display: grid; gap: 12px; }
 .study-results > h2 { font-size: 1.05rem; }
 
@@ -99,7 +104,7 @@
   border-radius: 14px;
   background: var(--color-surface);
   color: var(--color-text-soft);
-  font-size: 0.82rem;
+  font-size: 0.9rem;
 }
 
 .insufficient-data strong { color: var(--color-text); font-size: 1rem; }
@@ -112,10 +117,10 @@
 
 .study-chart-card h2 { font-size: 0.95rem; }
 .study-chart { width: 100%; height: auto; }
-.study-chart text { fill: var(--color-text); font-size: 13px; font-weight: 700; }
+.study-chart text { fill: var(--color-text); font-size: 16px; font-weight: 700; }
 .study-chart .bar-first { fill: #1d5fae; }
 .study-chart .bar-second { fill: #277232; }
-.study-chart .bar-label { fill: #fff; font-size: 12px; }
+.study-chart .bar-label { fill: #fff; font-size: 15px; }
 
 .study-metric-grid {
   display: grid;
@@ -129,7 +134,7 @@
   padding: 9px;
   border-radius: 10px;
   background: var(--color-surface);
-  font-size: 0.72rem;
+  font-size: 0.9rem;
 }
 
 .study-actions { display: grid; gap: 10px; }

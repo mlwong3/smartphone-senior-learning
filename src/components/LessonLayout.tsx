@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import type { LessonPhase } from '../types'
 import { Icon } from './Icons'
 import './LessonLayout.css'
@@ -19,6 +19,11 @@ interface LessonLayoutProps {
 }
 
 export function LessonLayout({ title, phase, heading, onBack, children }: LessonLayoutProps) {
+  useEffect(() => {
+    const phoneContent = document.querySelector<HTMLElement>('.phone-frame__content')
+    if (phoneContent) phoneContent.scrollTop = 0
+  }, [phase, heading])
+
   return (
     <main className="lesson-layout">
       <div className="lesson-layout__topline">

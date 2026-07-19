@@ -9,6 +9,7 @@ interface HomeScreenProps {
   studyMode: boolean
   onOpenLevel: (id: LevelDefinition['id']) => void
   onOpenStudy: () => void
+  onResetProgress: () => void
 }
 
 export function HomeScreen({
@@ -17,9 +18,11 @@ export function HomeScreen({
   studyMode,
   onOpenLevel,
   onOpenStudy,
+  onResetProgress,
 }: HomeScreenProps) {
   const availableLevels = levels.filter((level) => level.available)
   const completedCount = availableLevels.filter((level) => progress[level.id].completed).length
+  const allCompleted = availableLevels.length > 0 && completedCount === availableLevels.length
 
   return (
     <main className="home-screen">
@@ -44,6 +47,7 @@ export function HomeScreen({
         <div
           className="progress-track"
           role="progressbar"
+          aria-label={`學習進度：已完成 ${completedCount}／${availableLevels.length} 關`}
           aria-valuemin={0}
           aria-valuemax={availableLevels.length}
           aria-valuenow={completedCount}
@@ -51,6 +55,24 @@ export function HomeScreen({
           <span style={{ width: `${availableLevels.length ? (completedCount / availableLevels.length) * 100 : 0}%` }} />
         </div>
       </section>
+
+      {allCompleted && (
+        <section className="completion-summary" aria-labelledby="completion-title">
+          <Icon name="check" size={52} />
+          <div>
+            <h2 id="completion-title">恭喜完成三關練習</h2>
+            <p>你已完成數碼生活安全練習，可以按需要再次練習。</p>
+          </div>
+          <ul>
+            <li><strong>註冊帳號：</strong>密碼要有足夠長度、英文及數字。</li>
+            <li><strong>安全驗證：</strong>先看清題目，再逐格檢查。</li>
+            <li><strong>外賣點餐：</strong>先看總額和數量，最後才確認。</li>
+          </ul>
+          <button type="button" className="restart-button" onClick={onResetProgress}>
+            重新練習全部關卡
+          </button>
+        </section>
+      )}
 
       <section className="home-screen__levels" aria-labelledby="levels-title">
         <h2 id="levels-title">選擇練習關卡</h2>

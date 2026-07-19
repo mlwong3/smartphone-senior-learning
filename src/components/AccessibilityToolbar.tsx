@@ -39,29 +39,31 @@ export function AccessibilityToolbar({
         <button
           type="button"
           className="tool-button tool-button--text"
-          aria-label="縮小文字"
           disabled={scaleIndex === 0}
           onClick={() => setScale(scaleIndex - 1)}
         >
-          A−
+          <span aria-hidden="true">A−</span>
+          <span className="sr-only">縮小文字</span>
         </button>
         <button
           type="button"
           className="tool-button tool-button--text"
-          aria-label="放大文字"
           disabled={scaleIndex === SCALES.length - 1}
           onClick={() => setScale(scaleIndex + 1)}
         >
-          A＋
+          <span aria-hidden="true">A＋</span>
+          <span className="sr-only">放大文字</span>
         </button>
       </div>
       <button type="button" className="tool-button tool-button--speech" onClick={readPage}>
         <Icon name="volume" size={22} />
         <span>讀出提示</span>
       </button>
-      <span className="sr-only" role="status" aria-live="polite">
-        {speechMessage}
-      </span>
+      {speechMessage && (
+        <span className="speech-status" role="status" aria-live="polite">
+          {speechMessage}
+        </span>
+      )}
     </div>
   )
 }

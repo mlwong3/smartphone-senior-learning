@@ -48,4 +48,22 @@ describe('RegistrationLesson', () => {
     await user.click(screen.getByRole('button', { name: '顯示密碼' }))
     expect(screen.getByRole('button', { name: '隱藏密碼' })).toBeInTheDocument()
   })
+
+  it('returns to the top when the learning phase changes', async () => {
+    const user = userEvent.setup()
+    const { container } = render(
+      <div className="phone-frame__content">
+        <RegistrationLesson onBack={vi.fn()} onComplete={vi.fn()} />
+      </div>,
+    )
+    const phoneContent = container.querySelector<HTMLElement>('.phone-frame__content')
+    expect(phoneContent).not.toBeNull()
+    if (!phoneContent) return
+    phoneContent.scrollTop = 320
+
+    await user.click(screen.getByRole('button', { name: '開始跟着做' }))
+
+    expect(phoneContent.scrollTop).toBe(0)
+    expect(screen.getByRole('heading', { name: '跟着做' })).toBeInTheDocument()
+  })
 })

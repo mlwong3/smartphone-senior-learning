@@ -18,7 +18,6 @@ export function AppIcon({ level, progress, onOpen }: AppIconProps) {
       className="level-card"
       onClick={() => onOpen(level.id)}
       disabled={!unlocked}
-      aria-label={`${level.title}，${statusLabel}。${level.description}`}
     >
       <span className={`level-card__icon level-card__icon--${level.id}`}>
         <Icon name={level.id} size={48} />

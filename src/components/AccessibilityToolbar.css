@@ -3,6 +3,7 @@
   top: 0;
   z-index: 4;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-sm);
   padding: 8px 18px;
@@ -16,17 +17,17 @@
 }
 
 .tool-button {
-  min-height: 44px;
+  min-height: var(--touch-min);
   border: 2px solid var(--color-primary);
   border-radius: 12px;
   background: #fff;
   color: var(--color-primary-dark);
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 800;
 }
 
 .tool-button--text {
-  min-width: 50px;
+  min-width: var(--touch-min);
   padding: 0 8px;
 }
 
@@ -41,4 +42,15 @@
   border-color: #9aa5b1;
   color: #63707c;
   background: #eef1f4;
+}
+
+.speech-status {
+  flex: 1 0 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #edf5ff;
+  color: var(--color-primary-dark);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.4;
 }

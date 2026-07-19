@@ -177,7 +177,7 @@ function CaptchaContent({ lesson, onBack, onFinish }: { lesson: LessonController
 
   if (lesson.phase === 'independent') {
     if (independentStage === 'text') return (
-      <LessonLayout title="關卡二：安全驗證" phase="independent" heading="文字驗證" onBack={onBack}>
+      <LessonLayout title="關卡二：安全驗證" phase="independent" heading="進階文字驗證" onBack={onBack}>
         <p className="lesson-intro">請輸入下方看到的五位英數碼。英文字母大小寫均可。</p>
         <div className="text-challenge" aria-label="驗證碼 H K 6 2 8"><span>H</span><span>K</span><span>6</span><span>2</span><span>8</span></div>
         <div className="form-field">

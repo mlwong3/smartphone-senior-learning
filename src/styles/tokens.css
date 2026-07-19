@@ -9,7 +9,7 @@
   --font-hint: 1.125rem;      /* 22.5px 提示文字 */
   --font-body: 1.25rem;       /* 25px 正文 */
   --font-title: 1.75rem;      /* 35px 標題 */
-  --font-display: 2.25rem;    /* 45px 大標 / emoji 旁 */
+  --font-display: 2.25rem;    /* 45px 大標 / 大圖示旁 */
   --line-height: 1.6;
 
   /* ---- 顏色（高對比；狀態一律「顏色＋圖示＋文字」三重表達）---- */

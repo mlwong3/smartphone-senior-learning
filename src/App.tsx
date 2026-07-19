@@ -18,6 +18,7 @@ import { OrderingLesson } from './levels/ordering/OrderingLesson'
 import { RegistrationLesson } from './levels/registration/RegistrationLesson'
 import {
   clearStudySessions,
+  DEFAULT_PROGRESS,
   loadProgress,
   loadSessions,
   loadSettings,
@@ -61,6 +62,11 @@ export default function App() {
     document.documentElement.style.fontSize = `${20 * settings.fontScale}px`
     saveSettings(settings)
   }, [settings])
+
+  useEffect(() => {
+    const phoneContent = document.querySelector<HTMLElement>('.phone-frame__content')
+    if (phoneContent) phoneContent.scrollTop = 0
+  }, [screen, showPostConfidence])
 
   function updateProgress(next: ProgressMap) {
     setProgress(next)
@@ -138,6 +144,11 @@ export default function App() {
     setSessions([])
   }
 
+  function resetProgress() {
+    if (!window.confirm('確定重新練習全部關卡嗎？完成進度將會重設。')) return
+    updateProgress(structuredClone(DEFAULT_PROGRESS))
+  }
+
   let content
   if (showPostConfidence && activeStudy && pendingMetrics) {
     content = (
@@ -201,6 +212,7 @@ export default function App() {
         studyMode={studyMode}
         onOpenLevel={(id) => setScreen(id)}
         onOpenStudy={() => setScreen('study')}
+        onResetProgress={resetProgress}
       />
     )
   }
