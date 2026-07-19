@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 import App from './App'
-import { STORAGE_KEYS } from './services/storage'
+import { saveProgress, STORAGE_KEYS } from './services/storage'
 
 describe('Smartphone Learning home', () => {
   beforeEach(() => {
@@ -61,5 +61,19 @@ describe('Smartphone Learning home', () => {
     const stored = localStorage.getItem(STORAGE_KEYS.sessions)
     expect(stored).toContain('P01')
     expect(stored).toContain('"confidenceAfter":4')
+  })
+
+  it('opens the two later lessons when progress has unlocked them', async () => {
+    const user = userEvent.setup()
+    saveProgress({
+      registration: { completed: true, unlocked: true },
+      captcha: { completed: true, unlocked: true },
+      ordering: { completed: false, unlocked: true },
+    })
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: /外賣點餐，可以開始/ }))
+    expect(screen.getByText('關卡三：外賣點餐')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '示範一次' })).toBeInTheDocument()
   })
 })

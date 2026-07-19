@@ -13,6 +13,8 @@ import {
   createStudySession,
   getNextAttemptNo,
 } from './domain/study'
+import { CaptchaLesson } from './levels/captcha/CaptchaLesson'
+import { OrderingLesson } from './levels/ordering/OrderingLesson'
 import { RegistrationLesson } from './levels/registration/RegistrationLesson'
 import {
   clearStudySessions,
@@ -160,6 +162,30 @@ export default function App() {
       <RegistrationLesson
         onBack={() => setScreen('home')}
         onComplete={(metrics) => handleLessonComplete('registration', metrics)}
+        onAbandon={handleAbandon}
+        onFinish={() => {
+          if (activeStudy && pendingMetrics) setShowPostConfidence(true)
+          else setScreen('home')
+        }}
+      />
+    )
+  } else if (screen === 'captcha') {
+    content = (
+      <CaptchaLesson
+        onBack={() => setScreen('home')}
+        onComplete={(metrics) => handleLessonComplete('captcha', metrics)}
+        onAbandon={handleAbandon}
+        onFinish={() => {
+          if (activeStudy && pendingMetrics) setShowPostConfidence(true)
+          else setScreen('home')
+        }}
+      />
+    )
+  } else if (screen === 'ordering') {
+    content = (
+      <OrderingLesson
+        onBack={() => setScreen('home')}
+        onComplete={(metrics) => handleLessonComplete('ordering', metrics)}
         onAbandon={handleAbandon}
         onFinish={() => {
           if (activeStudy && pendingMetrics) setShowPostConfidence(true)
