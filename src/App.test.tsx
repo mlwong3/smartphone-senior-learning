@@ -73,7 +73,7 @@ describe('Smartphone Learning home', () => {
     await user.type(screen.getByLabelText('電話'), '61234567')
     await user.type(screen.getByLabelText('密碼'), 'Study123')
     await user.click(screen.getByRole('button', { name: '檢查資料' }))
-    await user.click(screen.getByRole('button', { name: '完成回顧並返回首頁' }))
+    await user.click(screen.getByRole('button', { name: '返回首頁' }))
 
     expect(screen.getByRole('heading', { name: '完成後小問題' })).toBeInTheDocument()
     await user.click(screen.getByRole('radio', { name: '4 分' }))

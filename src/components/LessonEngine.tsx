@@ -19,8 +19,8 @@ interface LessonEngineProps {
   onComplete: (metrics: LessonMetrics) => void
 }
 
-function elapsedSeconds(startedAtMs: number | null): number {
-  return startedAtMs === null ? 0 : Math.max(1, Math.ceil((Date.now() - startedAtMs) / 1000))
+function elapsedSeconds(elapsedMs: number, hasStarted: boolean): number {
+  return hasStarted ? Math.max(1, Math.ceil(elapsedMs / 1000)) : 0
 }
 
 export function LessonEngine({ children, onComplete }: LessonEngineProps) {
@@ -33,10 +33,13 @@ export function LessonEngine({ children, onComplete }: LessonEngineProps) {
     completed: false,
   })
   const [replayFrom, setReplayFrom] = useState<LessonPhase | null>(null)
-  const startedAtMs = useRef<number | null>(null)
+  const activeSegmentStartedAtMs = useRef<number | null>(null)
+  const accumulatedIndependentMs = useRef(0)
+  const hasStartedIndependent = useRef(false)
 
   function finishDemo() {
     if (replayFrom) {
+      if (replayFrom === 'independent') activeSegmentStartedAtMs.current = Date.now()
       setPhase(replayFrom)
       setReplayFrom(null)
       return
@@ -46,7 +49,9 @@ export function LessonEngine({ children, onComplete }: LessonEngineProps) {
 
   function beginIndependent() {
     const now = Date.now()
-    startedAtMs.current = now
+    hasStartedIndependent.current = true
+    accumulatedIndependentMs.current = 0
+    activeSegmentStartedAtMs.current = now
     setMetrics((current) => ({ ...current, startedAt: new Date(now).toISOString() }))
     setPhase('independent')
   }
@@ -61,16 +66,30 @@ export function LessonEngine({ children, onComplete }: LessonEngineProps) {
 
   function replayDemo() {
     recordHint()
+    if (phase === 'independent' && activeSegmentStartedAtMs.current !== null) {
+      accumulatedIndependentMs.current += Math.max(
+        0,
+        Date.now() - activeSegmentStartedAtMs.current,
+      )
+      activeSegmentStartedAtMs.current = null
+    }
     setReplayFrom(phase)
     setPhase('demo')
   }
 
   function finish(completed: boolean): LessonMetrics {
+    const currentSegmentMs =
+      activeSegmentStartedAtMs.current === null
+        ? 0
+        : Math.max(0, Date.now() - activeSegmentStartedAtMs.current)
     const result: LessonMetrics = {
       ...metrics,
       completed,
-      completedAt: new Date().toISOString(),
-      durationSeconds: elapsedSeconds(startedAtMs.current),
+      ...(completed ? { completedAt: new Date().toISOString() } : {}),
+      durationSeconds: elapsedSeconds(
+        accumulatedIndependentMs.current + currentSegmentMs,
+        hasStartedIndependent.current,
+      ),
     }
     setMetrics(result)
     if (completed) {

@@ -1,9 +1,10 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import {
   DEFAULT_PROGRESS,
   DEFAULT_SETTINGS,
   STORAGE_KEYS,
   loadProgress,
+  loadSessions,
   loadSettings,
   saveProgress,
   saveSettings,
@@ -28,5 +29,34 @@ describe('versioned local storage', () => {
 
     expect(loadSettings()).toEqual({ fontScale: 1.15, speechEnabled: false })
     expect(loadProgress().captcha.unlocked).toBe(true)
+  })
+
+  it('rejects structurally incomplete study session records', () => {
+    localStorage.setItem(
+      STORAGE_KEYS.sessions,
+      JSON.stringify({
+        schemaVersion: 1,
+        data: [
+          {
+            schemaVersion: 1,
+            sessionId: 'damaged-session',
+            participantCode: 'P01',
+            levelId: 'registration',
+            completed: true,
+          },
+        ],
+      }),
+    )
+
+    expect(loadSessions()).toEqual([])
+  })
+
+  it('does not interrupt the app when the browser blocks local storage writes', () => {
+    const setItem = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('Storage is unavailable', 'QuotaExceededError')
+    })
+
+    expect(() => saveSettings(DEFAULT_SETTINGS)).not.toThrow()
+    setItem.mockRestore()
   })
 })

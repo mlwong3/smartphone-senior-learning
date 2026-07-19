@@ -34,8 +34,12 @@ function readStored<T>(key: string, validate: (value: unknown) => value is T): T
 }
 
 function writeStored<T>(key: string, data: T): void {
-  const value: StoredValue<T> = { schemaVersion: 1, data }
-  localStorage.setItem(key, JSON.stringify(value))
+  try {
+    const value: StoredValue<T> = { schemaVersion: 1, data }
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch {
+    // Keep the current in-memory state when private browsing or storage limits block writes.
+  }
 }
 
 function isSettings(value: unknown): value is UserSettings {
@@ -53,16 +57,37 @@ function isProgress(value: unknown): value is ProgressMap {
   })
 }
 
+function isNonNegativeInteger(value: unknown): value is number {
+  return typeof value === 'number' && Number.isInteger(value) && value >= 0
+}
+
+function isConfidenceScore(value: unknown): value is number {
+  return typeof value === 'number' && Number.isInteger(value) && value >= 1 && value <= 5
+}
+
+function isTimestamp(value: unknown): value is string {
+  return typeof value === 'string' && value.length > 0 && !Number.isNaN(Date.parse(value))
+}
+
 function isSessions(value: unknown): value is StudySessionRecord[] {
   return Array.isArray(value) && value.every((item) => {
     if (!item || typeof item !== 'object') return false
     const session = item as Partial<StudySessionRecord>
+    const isCompleted = typeof session.completed === 'boolean' && session.completed
     return (
       session.schemaVersion === 1 &&
-      typeof session.sessionId === 'string' &&
-      typeof session.participantCode === 'string' &&
+      typeof session.sessionId === 'string' && session.sessionId.length > 0 &&
+      typeof session.participantCode === 'string' && /^P0[1-5]$/.test(session.participantCode) &&
       ['registration', 'captcha', 'ordering'].includes(session.levelId ?? '') &&
-      typeof session.completed === 'boolean'
+      isNonNegativeInteger(session.errorCount) &&
+      isNonNegativeInteger(session.hintCount) &&
+      isNonNegativeInteger(session.durationSeconds) &&
+      typeof session.attemptNo === 'number' && Number.isInteger(session.attemptNo) && session.attemptNo >= 1 &&
+      isConfidenceScore(session.confidenceBefore) &&
+      typeof session.completed === 'boolean' &&
+      (isCompleted ? isTimestamp(session.startedAt) : session.startedAt === '' || isTimestamp(session.startedAt)) &&
+      (isCompleted ? isTimestamp(session.completedAt) : session.completedAt === undefined) &&
+      (isCompleted ? isConfidenceScore(session.confidenceAfter) : session.confidenceAfter === undefined)
     )
   })
 }

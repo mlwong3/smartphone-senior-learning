@@ -40,14 +40,20 @@ function CartView({ cart, onChange }: { cart: Cart; onChange: (id: MenuItemId, q
 }
 
 export function OrderingLesson({ onBack, onComplete, onAbandon, onFinish }: OrderingLessonProps) {
+  const finishLesson = onFinish ?? onBack
+
   return <LessonEngine onComplete={onComplete}>{(lesson) => {
     function leave() {
-      if (lesson.phase === 'review' || window.confirm('這一關尚未完成，確定返回首頁嗎？')) {
-        if (lesson.phase !== 'review') onAbandon?.(lesson.abandon())
+      if (lesson.phase === 'review') {
+        finishLesson()
+        return
+      }
+      if (window.confirm('這一關尚未完成，確定返回首頁嗎？')) {
+        onAbandon?.(lesson.abandon())
         onBack()
       }
     }
-    return <OrderingContent lesson={lesson} onBack={leave} onFinish={onFinish ?? onBack} />
+    return <OrderingContent lesson={lesson} onBack={leave} onFinish={finishLesson} />
   }}</LessonEngine>
 }
 
