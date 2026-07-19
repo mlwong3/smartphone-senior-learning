@@ -1,0 +1,44 @@
+.accessibility-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.accessibility-toolbar__text-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.tool-button {
+  min-height: 44px;
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--color-primary-dark);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.tool-button--text {
+  min-width: 50px;
+  padding: 0 8px;
+}
+
+.tool-button--speech {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+}
+
+.tool-button:disabled {
+  border-color: #9aa5b1;
+  color: #63707c;
+  background: #eef1f4;
+}

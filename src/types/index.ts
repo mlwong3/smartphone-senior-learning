@@ -1,26 +1,43 @@
-// 畫面識別碼：首頁或三個關卡
-export type ScreenId = 'home' | 'level1' | 'level2' | 'level3'
+export type LevelId = 'registration' | 'captcha' | 'ordering'
+export type ScreenId = 'home' | LevelId | 'study'
+export type LessonPhase = 'demo' | 'guided' | 'independent' | 'review'
+export type FontScale = 1 | 1.15 | 1.3
 
-// 單一關卡的資料結構
-export interface Level {
-  id: Exclude<ScreenId, 'home'>
-  /** 關卡序號（1、2、3），用於顯示與解鎖順序 */
+export interface LevelDefinition {
+  id: LevelId
   order: number
-  /** 關卡名稱，例如「註冊帳號」 */
-  name: string
-  /** App 圖示（emoji） */
-  icon: string
-  /** 圖示底色（CSS 顏色值或變數） */
-  iconColor: string
-  /** 一句簡短說明 */
+  title: string
   description: string
+  available: boolean
 }
 
-// 關卡進度狀態：是否解鎖、是否完成
 export interface LevelProgress {
   unlocked: boolean
   completed: boolean
 }
 
-// 以關卡 id 為 key 的進度表
-export type ProgressMap = Record<Level['id'], LevelProgress>
+export type ProgressMap = Record<LevelId, LevelProgress>
+
+export interface LessonMetrics {
+  errorCount: number
+  hintCount: number
+  startedAt: string
+  completedAt?: string
+  durationSeconds: number
+  completed: boolean
+}
+
+export interface StudySessionRecord extends LessonMetrics {
+  schemaVersion: 1
+  sessionId: string
+  participantCode: string
+  levelId: LevelId
+  attemptNo: number
+  confidenceBefore: number
+  confidenceAfter?: number
+}
+
+export interface UserSettings {
+  fontScale: FontScale
+  speechEnabled: boolean
+}

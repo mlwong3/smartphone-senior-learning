@@ -17,12 +17,14 @@
   --color-text-soft: #4a4a4a;     /* 次要文字 */
   --color-bg: #ffffff;            /* 白背景 */
   --color-surface: #f4f6f8;       /* 卡片 / 區塊底色 */
+  --color-border: #c7d0da;
   --color-primary: #1565c0;       /* 主色（藍） */
   --color-primary-dark: #0d47a1;  /* 主色按下 */
   --color-success: #2e7d32;       /* 成功（綠） */
   --color-error: #c62828;         /* 錯誤（紅） */
   --color-locked: #9e9e9e;        /* 鎖住 / 停用 */
   --color-focus: #ffb300;         /* 焦點外框（高可見） */
+  --user-font-scale: 1;
 
   /* ---- 間距 ---- */
   --space-xs: 4px;

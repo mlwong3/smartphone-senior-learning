@@ -2,16 +2,66 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-sm) var(--space-lg);
-  padding-top: var(--space-md);
-  font-size: var(--font-hint);
-  font-weight: 600;
-  color: var(--color-text);
-  background: transparent;
+  min-height: 52px;
+  padding: 13px 24px 8px;
+  background: #fff;
+  color: #101820;
+  font-size: 0.8rem;
+  font-weight: 800;
   flex-shrink: 0;
 }
 
 .status-bar__icons {
   display: flex;
-  gap: var(--space-sm);
+  align-items: center;
+  gap: 7px;
+}
+
+.status-bar__network { font-size: 0.58rem; }
+
+.signal-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 15px;
+}
+
+.signal-bars i {
+  display: block;
+  width: 3px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.signal-bars i:nth-child(1) { height: 5px; }
+.signal-bars i:nth-child(2) { height: 8px; }
+.signal-bars i:nth-child(3) { height: 11px; }
+.signal-bars i:nth-child(4) { height: 14px; }
+
+.battery {
+  position: relative;
+  width: 24px;
+  height: 12px;
+  padding: 2px;
+  border: 2px solid currentColor;
+  border-radius: 3px;
+}
+
+.battery::after {
+  position: absolute;
+  top: 2px;
+  right: -5px;
+  width: 3px;
+  height: 6px;
+  border-radius: 0 2px 2px 0;
+  background: currentColor;
+  content: '';
+}
+
+.battery i {
+  display: block;
+  width: 76%;
+  height: 100%;
+  border-radius: 1px;
+  background: #277232;
 }

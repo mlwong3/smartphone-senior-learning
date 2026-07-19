@@ -1,39 +1,103 @@
 .home-screen {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
-  padding: var(--space-lg);
-  gap: var(--space-lg);
+  gap: 18px;
+  padding: 18px 22px 36px;
 }
 
 .home-screen__header {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 58px;
+  height: 58px;
+  border-radius: 17px;
+  background: var(--color-primary);
+  color: #fff;
 }
 
 .home-screen__title {
-  font-size: var(--font-title);
-  font-weight: 700;
-  color: var(--color-text);
+  font-size: 1.7rem;
+  line-height: 1.05;
 }
 
 .home-screen__subtitle {
-  margin-top: var(--space-sm);
-  font-size: var(--font-body);
+  margin-top: 5px;
   color: var(--color-text-soft);
+  font-size: 0.82rem;
+  line-height: 1.35;
 }
 
-.home-screen__progress {
-  margin-top: var(--space-sm);
-  font-size: var(--font-hint);
-  font-weight: 600;
-  color: var(--color-primary);
+.home-safety {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border: 2px solid #bc6b00;
+  border-radius: 16px;
+  background: #fff8e8;
+  color: #6a3900;
 }
 
-/* 三個圖示：單欄垂直排列，間距大、易點選 */
+.home-safety svg { flex: 0 0 auto; }
+.home-safety p { display: flex; flex-direction: column; }
+.home-safety strong { font-size: 0.94rem; }
+.home-safety span { font-size: 0.78rem; line-height: 1.45; }
+
+.progress-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #eaf3ff;
+}
+
+.progress-card__copy {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.8rem;
+}
+
+.progress-card__copy strong { color: var(--color-primary-dark); }
+
+.progress-track {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #c4d4e8;
+}
+
+.progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-primary);
+}
+
+.home-screen__levels h2 {
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+}
+
 .home-screen__grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-lg);
-  justify-items: center;
-  padding-bottom: var(--space-md);
+  gap: 14px;
+}
+
+.study-entry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border: 2px dashed #654da0;
+  background: #f4efff;
+  color: #4e3788;
+  font-weight: 800;
 }

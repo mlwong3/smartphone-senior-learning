@@ -1,62 +1,81 @@
-.app-icon {
+.level-card {
+  display: grid;
+  grid-template-columns: 68px minmax(0, 1fr);
+  gap: 14px;
+  width: 100%;
+  min-height: 136px;
+  padding: 16px;
+  border: 2px solid #c7d3df;
+  border-radius: 18px;
+  background: #fff;
+  color: var(--color-text);
+  text-align: left;
+  box-shadow: 0 5px 14px rgba(33, 55, 75, 0.1);
+}
+
+.level-card:not(:disabled):hover {
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.level-card:disabled {
+  background: #f1f3f5;
+  color: #505963;
+  opacity: 1;
+}
+
+.level-card__icon {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 18px;
+  color: #fff;
+}
+
+.level-card__icon--registration { background: #1d5fae; }
+.level-card__icon--captcha { background: #277232; }
+.level-card__icon--ordering { background: #a44a00; }
+.level-card:disabled .level-card__icon { background: #707b86; }
+
+.level-card__copy {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--space-sm);
-  background: transparent;
-  padding: var(--space-sm);
-  min-height: auto;
+  min-width: 0;
 }
 
-.app-icon:disabled {
-  opacity: 0.7;
+.level-card__number {
+  color: var(--color-primary-dark);
+  font-size: 0.7rem;
+  font-weight: 800;
 }
 
-.app-icon__tile {
-  position: relative;
-  width: 84px;
-  height: 84px;
-  border-radius: var(--radius-lg);
+.level-card:disabled .level-card__number { color: #505963; }
+
+.level-card__name {
+  font-size: 1.12rem;
+  font-weight: 900;
+}
+
+.level-card__description {
+  margin-top: 2px;
+  color: var(--color-text-soft);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.level-card__status {
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  gap: 7px;
+  min-height: 38px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 900;
 }
 
-.app-icon__emoji {
-  font-size: 46px;
-  line-height: 1;
-}
-
-.app-icon__lock {
-  position: absolute;
-  right: -6px;
-  bottom: -6px;
-  font-size: 28px;
-  background: var(--color-bg);
-  border-radius: 50%;
-  padding: 2px;
-}
-
-.app-icon__name {
-  font-size: var(--font-body);
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.app-icon__status {
-  font-size: var(--font-hint);
-  font-weight: 600;
-}
-
-.app-icon__status--done {
-  color: var(--color-success);
-}
-
-.app-icon__status--ready {
-  color: var(--color-primary);
-}
-
-.app-icon__status--locked {
-  color: var(--color-locked);
-}
+.level-card__status--ready { background: #e7f1ff; color: #0d4b92; }
+.level-card__status--locked { background: #e3e7eb; color: #3f4852; }
+.level-card__status--done { background: #e7f6e9; color: #226b2b; }
