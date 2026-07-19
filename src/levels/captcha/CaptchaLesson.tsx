@@ -262,7 +262,6 @@ function CaptchaJourney({ lesson, onFinished }: { lesson: LessonController; onFi
 
   function openEmail(message: EmailMessage) {
     if (!message.correct) {
-      lesson.recordError()
       setFeedback('這封不是要找的確認電郵，請留意寄件者和主旨。')
       return
     }

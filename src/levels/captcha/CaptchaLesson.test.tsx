@@ -50,9 +50,10 @@ describe('CaptchaLesson', () => {
     expect(screen.getByRole('alert')).toHaveTextContent('尚未輸入六位數')
   })
 
-  it('reports a wrong email choice as an error', async () => {
+  it('gives feedback for a wrong email choice without counting it as an error', async () => {
     const user = userEvent.setup()
-    render(<CaptchaLesson onBack={vi.fn()} onComplete={vi.fn()} />)
+    const onComplete = vi.fn()
+    render(<CaptchaLesson onBack={vi.fn()} onComplete={onComplete} />)
 
     await user.click(screen.getByRole('button', { name: '開始跟着做' }))
     await user.type(screen.getByLabelText('六位數短訊驗證碼'), '381642')
@@ -60,6 +61,15 @@ describe('CaptchaLesson', () => {
     await user.click(screen.getByRole('button', { name: /安全通知：你的安全提示/ }))
 
     expect(screen.getByRole('alert')).toHaveTextContent('不是要找的確認電郵')
+
+    await user.click(screen.getByRole('button', { name: /智學手機：確認練習帳號/ }))
+    await user.click(screen.getByRole('button', { name: '確認練習帳號' }))
+    await completeCaptcha(user)
+    await user.click(screen.getByRole('button', { name: '開始自己完成' }))
+    await completeSmsAndEmail(user)
+    await completeCaptcha(user)
+
+    expect(onComplete).toHaveBeenCalledWith(expect.objectContaining({ completed: true, errorCount: 0 }))
   })
 
   it('changes the text CAPTCHA when the learner refreshes it', async () => {
