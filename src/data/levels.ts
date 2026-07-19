@@ -12,7 +12,7 @@ export const levels: LevelDefinition[] = [
     id: 'captcha',
     order: 2,
     title: '安全驗證',
-    description: '練習圖像和文字安全驗證',
+    description: '練習短訊、電郵及 CAPTCHA 安全驗證',
     available: true,
   },
   {
